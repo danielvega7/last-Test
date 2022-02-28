@@ -38,19 +38,27 @@
                                     <action selector="saveAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tUa-Ka-x31"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Previous" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KgN-T2-DVs">
+                                <rect key="frame" x="148" y="426" width="119" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" id="7qh-TJ-T7u"/>
                     <connections>
-                        <outlet property="helloWorldLabel" destination="jbQ-JR-Pi0" id="m4l-uo-VNs"/>
+                        <outlet property="helloWorldLabel" destination="KgN-T2-DVs" id="2kF-FM-Phk"/>
+                        <outlet property="previous" destination="KgN-T2-DVs" id="2Ma-lK-s6z"/>
                         <outlet property="testTextField" destination="76Q-dz-Tkh" id="Jyv-Cj-eXj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="971" y="110"/>
+            <point key="canvasLocation" x="969.56521739130437" y="109.82142857142857"/>
         </scene>
         <!--TableView-->
         <scene sceneID="kHP-JK-te1">
@@ -100,6 +108,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Mis-bs-iGz" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="kSm-Uh-LoL">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
@@ -114,8 +123,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="house" catalog="system" width="128" height="106"/>
-        <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="house" catalog="system" width="32" height="32"/>
+        <image name="plus" catalog="system" width="32" height="32"/>
         <image name="table" catalog="system" width="128" height="93"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -14,17 +14,31 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var helloWorldLabel: UILabel!
     
+    @IBOutlet weak var previous: UILabel!
+    
     var inLabel = "default"
     
     let db = Firestore.firestore()
     
     var ref = Database.database().reference()
     
+    
+
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         db.collection("names").document("docNames").setData(["jamal": inLabel], merge: false)
-        
+        let docRef = db.collection("names").document("docNames")
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+            } else {
+                print("Document does not exist")
+            }
+        }
     }
 
     @IBAction func saveAction(_ sender: UIButton) {
