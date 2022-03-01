@@ -29,11 +29,17 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
         db.collection("names").document("docNames").setData(["jamal": inLabel], merge: false)
+        
         let docRef = db.collection("names").document("docNames")
+        
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                
+                self.previous.text = dataDescription
                 print("Document data: \(dataDescription)")
             } else {
                 print("Document does not exist")
@@ -42,6 +48,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func saveAction(_ sender: UIButton) {
+        
         if testTextField.text != "" {
             inLabel = testTextField.text!
             db.collection("names").document("docNames").setData(["jamal": inLabel], merge: true)
