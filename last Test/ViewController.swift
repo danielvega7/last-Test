@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var helloWorldLabel: UILabel!
     
+    @IBOutlet weak var textViewOutlet: UITextView!
+    
     @IBOutlet weak var previous: UILabel!
     
     var inLabel = "default"
@@ -37,9 +39,10 @@ class ViewController: UIViewController {
         
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                let dataDescription = document.data()!
                 
-                self.previous.text = dataDescription
+                self.textViewOutlet.text = dataDescription.first!.value as! String
+//                self.textViewOutlet.text = dataDescription.f
                 print("Document data: \(dataDescription)")
             } else {
                 print("Document does not exist")
