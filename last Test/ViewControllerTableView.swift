@@ -11,6 +11,14 @@ import Firebase
 public class StaticStuff {
     public static var mom = "mom"
 }
+public class Movie {
+    var name: String
+    var votes: Int
+    init(n: String, v: Int){
+        name = n
+        votes = v
+    }
+}
 class ViewControllerTableView: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
    
     let db = Firestore.firestore()
@@ -22,8 +30,10 @@ class ViewControllerTableView: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var tableViewOutlet: UITableView!
     
     var movieArray = [String]()
+    var voteArray = [Int]()
     
     
+    var movieVote = [Movie]()
     
     @IBOutlet weak var textFieldOutlet: UITextField!
     
@@ -35,13 +45,14 @@ class ViewControllerTableView: UIViewController, UITableViewDelegate, UITableVie
         tableViewOutlet.dataSource = self
         textFieldOutlet.resignFirstResponder()
         tableViewOutlet.reloadData()
+        print("lol")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         tableViewOutlet.reloadData()
         
-        infoListener = db.collection("names").document("array").addSnapshotListener { (QuerySnapshot, err) in
+        infoListener = db.collection("names").document("MovieArray").addSnapshotListener { (QuerySnapshot, err) in
             if let err = err {
                 print("error getting documents: \(err)")
             }
@@ -67,16 +78,33 @@ class ViewControllerTableView: UIViewController, UITableViewDelegate, UITableVie
         cell.textLabel?.text = movieArray[indexPath.row]
         return cell
     }
-    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            movieArray.remove(at: indexPath.row)
+            if voteArray.count == movieArray.count {
+            voteArray.remove(at: indexPath.row)
+            }
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            save()
+            tableView.reloadData()
+          
+        }
+    }
     @IBAction func addAction(_ sender: UIButton) {
         if textFieldOutlet.text != "" {
+            
             movieArray.append(textFieldOutlet.text!)
-            db.collection("names").document("array").setData(["movieList": movieArray], merge: false)
+            print("first")
+            voteArray.append(0)
+            db.collection("names").document("MovieArray").setData(["movieNames": movieArray], merge: true)
+            db.collection("names").document("MovieArray").setData(["votes": voteArray], merge: true)
+            print("after")
             tableViewOutlet.reloadData()
             
         }
         else {
-            
+            print("add failed")
         }
     }
     
@@ -85,13 +113,23 @@ class ViewControllerTableView: UIViewController, UITableViewDelegate, UITableVie
     
     
     func setArray() {
-        let docRef = db.collection("names").document("array")
+        let docRef = db.collection("names").document("MovieArray")
         
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 let dataDescription = document.data()!
                 
-                self.movieArray = dataDescription.first!.value as! [String]
+                if let jerry = dataDescription["movieNames"] {
+                    if let jamal = jerry as? [String] {
+                        self.movieArray = jamal
+                        self.voteArray = dataDescription["votes"] as! [Int]
+                    }
+                    
+                }
+                
+                else {
+                    print("error when saving or nothing in firebase")
+                }
                 self.tableViewOutlet.reloadData()
                 
             } else {
@@ -104,5 +142,9 @@ class ViewControllerTableView: UIViewController, UITableViewDelegate, UITableVie
        textFieldOutlet.resignFirstResponder()
         return true
     }
-    
+    func save() {
+        db.collection("names").document("MovieArray").setData(["movieNames": movieArray], merge: true)
+        db.collection("names").document("MovieArray").setData(["votes": voteArray], merge: true)
+    }
 }
+
