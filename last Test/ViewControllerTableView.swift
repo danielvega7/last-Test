@@ -80,10 +80,11 @@ class ViewControllerTableView: UIViewController, UITableViewDelegate, UITableVie
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+           // setArray()
             movieArray.remove(at: indexPath.row)
-            if voteArray.count == movieArray.count {
-            voteArray.remove(at: indexPath.row)
-            }
+            
+               voteArray.remove(at: indexPath.row)
+            
             tableView.deleteRows(at: [indexPath], with: .fade)
             
             save()
@@ -97,8 +98,7 @@ class ViewControllerTableView: UIViewController, UITableViewDelegate, UITableVie
             movieArray.append(textFieldOutlet.text!)
             print("first")
             voteArray.append(0)
-            db.collection("names").document("MovieArray").setData(["movieNames": movieArray], merge: true)
-            db.collection("names").document("MovieArray").setData(["votes": voteArray], merge: true)
+            save()
             print("after")
             tableViewOutlet.reloadData()
             
