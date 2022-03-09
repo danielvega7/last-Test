@@ -11,14 +11,7 @@ import Firebase
 public class StaticStuff {
     public static var mom = "mom"
 }
-public class Movie {
-    var name: String
-    var votes: Int
-    init(n: String, v: Int){
-        name = n
-        votes = v
-    }
-}
+
 class ViewControllerTableView: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
    
     let db = Firestore.firestore()
@@ -39,7 +32,21 @@ class ViewControllerTableView: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        movieVote.append(Movie(n: "kingsman", v: 0))
+        
+        do {
+        let encoder = JSONEncoder()
+        
+        let d = try encoder.encode(movieVote)
+        print("here")
+        db.collection("names").document("movieArray").setData(["movies": d], merge: true) } catch {
+            print("unable to encode class (\(error)")
+        }
+            
+        setClassArray()
         setArray()
+        
         textFieldOutlet.delegate = self
         tableViewOutlet.delegate = self
         tableViewOutlet.dataSource = self
@@ -52,7 +59,7 @@ class ViewControllerTableView: UIViewController, UITableViewDelegate, UITableVie
         super.viewWillAppear(true)
         tableViewOutlet.reloadData()
         
-        infoListener = db.collection("names").document("MovieArray").addSnapshotListener { (QuerySnapshot, err) in
+        infoListener = db.collection("names").document("movieArray").addSnapshotListener { (QuerySnapshot, err) in
             if let err = err {
                 print("error getting documents: \(err)")
             }
@@ -70,24 +77,25 @@ class ViewControllerTableView: UIViewController, UITableViewDelegate, UITableVie
         tableViewOutlet.reloadData()
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movieArray.count
+        return movieVote.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell")!
-        cell.textLabel?.text = movieArray[indexPath.row]
+        cell.textLabel?.text = movieVote[indexPath.row].name
         return cell
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            
            // setArray()
-            movieArray.remove(at: indexPath.row)
-            
-               voteArray.remove(at: indexPath.row)
-            
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            
-            save()
+//            movieArray.remove(at: indexPath.row)
+//
+//               voteArray.remove(at: indexPath.row)
+//
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+//
+//            save()
             tableView.reloadData()
           
         }
@@ -95,12 +103,17 @@ class ViewControllerTableView: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func addAction(_ sender: UIButton) {
         if textFieldOutlet.text != "" {
             
+            movieVote.append(Movie(n: textFieldOutlet.text!, v: 0))
+            movieSave()
+            tableViewOutlet.reloadData()
+            /*
+            for simple array
             movieArray.append(textFieldOutlet.text!)
             print("first")
             voteArray.append(0)
             save()
             print("after")
-            tableViewOutlet.reloadData()
+            tableViewOutlet.reloadData() */
             
         }
         else {
@@ -110,14 +123,42 @@ class ViewControllerTableView: UIViewController, UITableViewDelegate, UITableVie
     
     
     
+    func setClassArray() {
+        let docRef = db.collection("names").document("movieArray")
+        
+        docRef.getDocument { (document, error) in
+            
+            if let document = document, document.exists {
+                let dataDescription = document.data()!
+                var jerry = Data()
+                
+                if let temp = dataDescription["movies"] as? Data {
+                    jerry = temp
+                }
+                
+                
+                
+                do{
+                    let decoder = JSONDecoder()
+                    
+                    self.movieVote = try decoder.decode([Movie].self, from: jerry)
+                } catch {
+                    print("unable to encode class ")
+                }
+            }
+        }
+    }
+    
     
     
     func setArray() {
         let docRef = db.collection("names").document("MovieArray")
         
         docRef.getDocument { (document, error) in
+            
             if let document = document, document.exists {
                 let dataDescription = document.data()!
+                
                 
                 if let jerry = dataDescription["movieNames"] {
                     if let jamal = jerry as? [String] {
@@ -142,9 +183,14 @@ class ViewControllerTableView: UIViewController, UITableViewDelegate, UITableVie
        textFieldOutlet.resignFirstResponder()
         return true
     }
+    
     func save() {
         db.collection("names").document("MovieArray").setData(["movieNames": movieArray], merge: true)
         db.collection("names").document("MovieArray").setData(["votes": voteArray], merge: true)
+    }
+    
+    func movieSave() {
+        db.collection("names").document("movieArray").setData(["movie": movieVote], merge: true)
     }
 }
 

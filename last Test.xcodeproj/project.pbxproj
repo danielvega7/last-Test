@@ -25,6 +25,7 @@
 		115D5F8A27C7DB530055350B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 115D5F8927C7DB530055350B /* FirebaseStorage */; };
 		115D5F8C27C7DF7D0055350B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 115D5F8B27C7DF7D0055350B /* GoogleService-Info.plist */; };
 		116DDDF427C9318D00780507 /* ViewControllerTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116DDDF327C9318D00780507 /* ViewControllerTableView.swift */; };
+		11E2FF9027D902D100999EC5 /* Movie Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E2FF8F27D902D100999EC5 /* Movie Class.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		115D5F7027C7D75F0055350B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		115D5F8B27C7DF7D0055350B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		116DDDF327C9318D00780507 /* ViewControllerTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTableView.swift; sourceTree = "<group>"; };
+		11E2FF8F27D902D100999EC5 /* Movie Class.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie Class.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				115D5F6127C7D75E0055350B /* SceneDelegate.swift */,
 				115D5F6327C7D75E0055350B /* ViewController.swift */,
 				115D5F6527C7D75E0055350B /* Main.storyboard */,
+				11E2FF8F27D902D100999EC5 /* Movie Class.swift */,
 				116DDDF327C9318D00780507 /* ViewControllerTableView.swift */,
 				115D5F6B27C7D75F0055350B /* Assets.xcassets */,
 				115D5F6D27C7D75F0055350B /* LaunchScreen.storyboard */,
@@ -182,6 +185,7 @@
 			files = (
 				116DDDF427C9318D00780507 /* ViewControllerTableView.swift in Sources */,
 				115D5F6427C7D75E0055350B /* ViewController.swift in Sources */,
+				11E2FF9027D902D100999EC5 /* Movie Class.swift in Sources */,
 				115D5F6A27C7D75E0055350B /* last_Test.xcdatamodeld in Sources */,
 				115D5F6027C7D75E0055350B /* AppDelegate.swift in Sources */,
 				115D5F6227C7D75E0055350B /* SceneDelegate.swift in Sources */,
